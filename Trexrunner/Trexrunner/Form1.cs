@@ -16,5 +16,25 @@ namespace Trexrunner
         {
             InitializeComponent();
         }
+
+        private void GameReset()
+        {
+
+        }
+
+        private void keyIsDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void keyIsUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void mainGameTimerEvent(object sender, EventArgs e)
+        {
+
+        }
     }
 }
