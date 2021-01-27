@@ -94,6 +94,7 @@
             // 
             // gameTimer
             // 
+            this.gameTimer.Interval = 20;
             this.gameTimer.Tick += new System.EventHandler(this.mainGameTimerEvent);
             // 
             // Form1

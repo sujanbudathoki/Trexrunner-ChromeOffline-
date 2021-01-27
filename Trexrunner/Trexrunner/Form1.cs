@@ -26,10 +26,12 @@ namespace Trexrunner
         public Form1()
         {
             InitializeComponent();
+            GameReset();
         }
 
         private void GameReset()
         {
+            force = 12;
             obstacleSpeed = 12;
             jumpSpeed = 0;
             Jumping = false;
@@ -41,7 +43,7 @@ namespace Trexrunner
             {
                 if (x is PictureBox && (string)x.Tag == "Obstacle")
                 {
-                    int position = this.ClientSize.Width + rand.Next(500, 800) + (x.Width * 10);
+                    int position = this.ClientSize.Width + rand.Next(100, 200) + (x.Width * 10);
                     x.Left = position;
                 }
 
@@ -54,16 +56,74 @@ namespace Trexrunner
 
         private void keyIsDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Space && Jumping == false)
+                Jumping = true;
+
 
         }
 
         private void keyIsUp(object sender, KeyEventArgs e)
         {
-
+            if (Jumping == true)
+                Jumping = false;
+            if (e.KeyCode == Keys.R && isGameOver == true)
+                GameReset();
         }
 
         private void mainGameTimerEvent(object sender, EventArgs e)
         {
+            Trex.Top += jumpSpeed;
+            txtScore.Text = $"Score : " + score;
+            if (Jumping == true && force < 0)
+            {
+                Jumping = false;
+            }
+            if (Jumping == true)
+            {
+                jumpSpeed = -12;
+                force -= 1;
+            }
+            else
+            {
+                jumpSpeed = 12;
+            }
+            if(Trex.Top>275&&Jumping==false)
+            {
+                force = 12;
+                Trex.Top = 278;
+                jumpSpeed = 1;
+            }
+
+            foreach(Control x in this.Controls)
+            {
+                if(x is PictureBox&&(string)x.Tag=="Obstacle")
+                {
+                    x.Left -= obstacleSpeed;
+                    if (x.Left < -100)
+                    {
+                        x.Left = this.ClientSize.Width + rand.Next(100, 200) + (x.Width * 10);
+                        score++;
+                    }
+                 
+                    if(x.Bounds.IntersectsWith(Trex.Bounds))
+                    {
+                        isGameOver = true;
+                        txtScore.Text = $"Score" + score + "Press R to restart game";
+                        GameReset();
+                    }
+                   
+
+                }
+                
+               
+                
+
+            }
+            
+            
+
+
+
 
         }
     }
